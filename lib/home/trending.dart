@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -33,6 +34,16 @@ class _TrendingState extends State<Trending> {
 
     controller.addListener(() {
       activeDot.value = controller.page!.toInt();
+    });
+
+    Timer.periodic(Duration(seconds: 3), (timer) {
+      final currentPage = controller.page!.toInt();
+      print('Current page ${currentPage}');
+      if (currentPage == 3) {
+        controller.animateToPage(0, duration: Duration(seconds: 1), curve: Curves.linear);
+      } else {
+        controller.animateToPage(currentPage + 1, duration: Duration(seconds: 1), curve: Curves.linear);
+      }
     });
   }
 
