@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:get/get.dart';
+import 'package:movies/details/details_screeen.dart';
 
 class Trending extends StatefulWidget {
   @override
@@ -58,47 +59,52 @@ class _TrendingState extends State<Trending> {
               controller: controller,
               itemCount: trending.value.length,
               itemBuilder: (ctx, index) {
+
                 Map movie = trending.value[index];
-                String imageUrl =
-                    'https://image.tmdb.org/t/p/w500/${movie['backdrop_path']}';
-                return Stack(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        imageUrl,
-                        width: double.infinity,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      left: 0,
-                      child: Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(24),
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.transparent,
-                              Colors.black87
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                          ),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(8),
-                            bottomRight: Radius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          movie['title'],
-                          style: const TextStyle(fontSize: 20),
+                String imageUrl = 'https://image.tmdb.org/t/p/w500/${movie['backdrop_path']}';
+
+
+                return GestureDetector(
+                  onTap: () => Get.to(DetailsScreen(movie: movie, image: imageUrl)),
+                  child: Stack(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          imageUrl,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    )
-                  ],
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        left: 0,
+                        child: Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(24),
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.transparent,
+                                Colors.black87
+                              ],
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            ),
+                          ),
+                          child: Text(
+                            movie['title'],
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                 );
               },
             ),
