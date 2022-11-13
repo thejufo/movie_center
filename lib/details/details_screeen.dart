@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:movies/services/wishlisht_controller.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({required this.movie, required this.image});
@@ -17,6 +18,8 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   final cast = [].obs;
+
+
 
   void fetchCast() async {
     final id = widget.movie['id'];
@@ -34,6 +37,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     fetchCast();
   }
 
+  int exchageRate = 7600;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +47,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: ListView(
+      body: Column(
         // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
@@ -52,13 +57,24 @@ class _DetailsScreenState extends State<DetailsScreen> {
               Positioned(
                 bottom: -24,
                 right: 24,
-                child: FloatingActionButton(
-                  onPressed: () {},
-                  backgroundColor: Colors.white,
-                  foregroundColor: Colors.grey,
-                  child: Icon(Icons.favorite),
-                ),
-              )
+                child: GetBuilder(
+                  init: Get.find<WishlishController>(),
+                  builder: (ctrl) {
+                    return FloatingActionButton(
+                      onPressed: () {
+                        if (ctrl.wishlistMovies.contains(widget.movie)) {
+                          ctrl.removeMovie(widget.movie);
+                        } else {
+                          ctrl.addMovie(widget.movie);
+                        }
+                      },
+                      backgroundColor: Colors.white,
+                      foregroundColor: ctrl.wishlistMovies.contains(widget.movie) ? Colors.red : Colors.grey,
+                      child: Icon(Icons.favorite),
+                    );
+                  },
+                )
+              ),
             ],
           ),
           SizedBox(height: 38),
@@ -114,10 +130,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
           CircleAvatar(
             backgroundImage: NetworkImage(imageUrl),
           ),
-          
           SizedBox(height: 8),
-          
-          Text(item['name'], textAlign: TextAlign.center,)
+          Text(
+            item['name'],
+            textAlign: TextAlign.center,
+          )
         ],
       ),
     );

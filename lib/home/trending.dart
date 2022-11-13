@@ -63,7 +63,6 @@ class _TrendingState extends State<Trending> {
                 Map movie = trending.value[index];
                 String imageUrl = 'https://image.tmdb.org/t/p/w500/${movie['backdrop_path']}';
 
-
                 return GestureDetector(
                   onTap: () => Get.to(DetailsScreen(movie: movie, image: imageUrl)),
                   child: Stack(

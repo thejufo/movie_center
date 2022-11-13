@@ -8,4 +8,9 @@ class WishlishController extends GetxController {
     wishlistMovies.add(movie);
     refresh();
   }
+
+  removeMovie(Map movie) {
+    wishlistMovies.remove(movie);
+    refresh();
+  }
 }
