@@ -10,11 +10,12 @@ import 'package:movies/wishlist/wishlist_screen.dart';
 class HomeScreen extends StatelessWidget {
 
   final currentIndex = 0.obs;
+  final lightTheme = false.obs;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawer(),
+      drawer: Drawer(),
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,

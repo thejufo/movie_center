@@ -2,8 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movies/services/wishlisht_controller.dart';
 
-class WishlistScreen extends StatelessWidget {
+class WishlistScreen extends StatefulWidget {
   WishlistScreen({Key? key}) : super(key: key);
+
+  @override
+  State<WishlistScreen> createState() => _WishlistScreenState();
+}
+
+class _WishlistScreenState extends State<WishlistScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
