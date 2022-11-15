@@ -47,74 +47,76 @@ class _DetailsScreenState extends State<DetailsScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
-      body: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              Image.network(widget.image),
-              Positioned(
-                bottom: -24,
-                right: 24,
-                child: GetBuilder(
-                  init: Get.find<WishlishController>(),
-                  builder: (ctrl) {
-                    return FloatingActionButton(
-                      onPressed: () {
-                        if (ctrl.wishlistMovies.contains(widget.movie)) {
-                          ctrl.removeMovie(widget.movie);
-                        } else {
-                          ctrl.addMovie(widget.movie);
-                        }
-                      },
-                      backgroundColor: Colors.white,
-                      foregroundColor: ctrl.wishlistMovies.contains(widget.movie) ? Colors.red : Colors.grey,
-                      child: Icon(Icons.favorite),
-                    );
-                  },
-                )
-              ),
-            ],
-          ),
-          SizedBox(height: 38),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              widget.movie['title'],
-              style: TextStyle(fontSize: 20),
+      body: SingleChildScrollView(
+        child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Image.network(widget.image),
+                Positioned(
+                  bottom: -24,
+                  right: 24,
+                  child: GetBuilder(
+                    init: Get.find<WishlishController>(),
+                    builder: (ctrl) {
+                      return FloatingActionButton(
+                        onPressed: () {
+                          if (ctrl.wishlistMovies.contains(widget.movie)) {
+                            ctrl.removeMovie(widget.movie);
+                          } else {
+                            ctrl.addMovie(widget.movie);
+                          }
+                        },
+                        backgroundColor: Colors.white,
+                        foregroundColor: ctrl.wishlistMovies.contains(widget.movie) ? Colors.red : Colors.grey,
+                        child: Icon(Icons.favorite),
+                      );
+                    },
+                  )
+                ),
+              ],
             ),
-          ),
-          SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              widget.movie['overview'],
-              style: TextStyle(fontSize: 14),
-            ),
-          ),
-          SizedBox(height: 38),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Text(
-              'Cast',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-          SizedBox(height: 24),
-          Padding(
+            SizedBox(height: 38),
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Obx(() {
-                return Wrap(
-                  runAlignment: WrapAlignment.center,
-                  alignment: WrapAlignment.center,
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  children: [
-                    for (final item in cast) buildCastItem(item),
-                  ],
-                );
-              }))
-        ],
+              child: Text(
+                widget.movie['title'],
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            SizedBox(height: 12),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                widget.movie['overview'],
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
+            SizedBox(height: 38),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                'Cast',
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+            SizedBox(height: 24),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Obx(() {
+                  return Wrap(
+                    runAlignment: WrapAlignment.center,
+                    alignment: WrapAlignment.center,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      for (final item in cast) buildCastItem(item),
+                    ],
+                  );
+                }))
+          ],
+        ),
       ),
     );
   }
