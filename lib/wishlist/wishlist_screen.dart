@@ -14,7 +14,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   void initState() {
     super.initState();
-
   }
 
   @override

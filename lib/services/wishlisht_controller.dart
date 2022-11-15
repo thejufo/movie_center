@@ -3,34 +3,18 @@ import 'package:sqflite/sqflite.dart';
 
 class WishlishController extends GetxController {
 
-  WishlishController() {
-    setup();
-  }
-
   final wishlistMovies = [];
 
-  late Database myDatabase;
-
-  void setup() async {
-    final location = await getDatabasesPath();
-    final file = 'movie.db';
-    final databasePath = location + '/' + file;
-    myDatabase = await openDatabase(databasePath, version: 1, onCreate: (Database db, v) {
-      const  sql = 'Create Table movies (id int primary key autoincrement, title text, image text)';
-      db.execute(sql);
-    });
-
+  WishlishController({required this.db}) {
     const query = 'Select * From movies';
 
-    List movies = await myDatabase.rawQuery(query);
-    wishlistMovies.addAll(movies);
-    refresh();
+    db.rawQuery(query).then((movies) {
+      wishlistMovies.addAll(movies);
+      refresh();
+    });
   }
 
-  @override
-  void onInit() {
-    // setup();
-  }
+  final Database db;
 
   addMovie(Map movie) {
     wishlistMovies.add(movie);
@@ -39,13 +23,15 @@ class WishlishController extends GetxController {
     final image = 'https://image.tmdb.org/t/p/w500/${movie['poster_path']}';
 
     final sql = 'insert into movies (title, image) values("$title", "$image")';
-    myDatabase.rawInsert(sql);
+    db.rawInsert(sql);
 
     refresh();
   }
 
   removeMovie(Map movie) {
     wishlistMovies.remove(movie);
+    final sql = 'Delete from movies Where title = "${movie['title']}"';
+    db.rawDelete(sql);
     refresh();
   }
 }

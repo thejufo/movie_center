@@ -5,9 +5,22 @@ import 'package:movies/wishlist/wishlist_screen.dart';
 import 'package:sqflite/sqflite.dart';
 import 'home/home_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupDb();
   runApp(MyApp());
-  Get.put(WishlishController());
+}
+
+Future<void> setupDb() async {
+
+  final location = await getDatabasesPath();
+  final databasePath = '$location/movie.db';
+  Database myDatabase = await openDatabase(databasePath, version: 1, onCreate: (Database db, v) {
+    const  sql = 'Create Table movies (title text, image text)';
+    db.execute(sql);
+  });
+
+  Get.put(WishlishController(db: myDatabase));
 }
 
 class MyApp extends StatefulWidget {
